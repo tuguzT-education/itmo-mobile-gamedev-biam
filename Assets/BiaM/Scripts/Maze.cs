@@ -7,8 +7,16 @@ namespace BiaM
 {
     public class Maze : MonoBehaviour
     {
-        [SerializeField] private Room roomPrefab;
+        [SerializeField, Header("General")] private Room roomPrefab;
         [SerializeField, Space] private PT.MazeGenerator.Config config = new();
+
+        [SerializeField, Header("Color")] private Color mainColor = Color.yellow;
+        [SerializeField] private bool useGradient = true;
+        [SerializeField] private float gradientSaturation = 0.7f;
+        [SerializeField] private float gradientSaturationOffset = 0.1f;
+        [SerializeField] private float gradientValue = 0.7f;
+        [SerializeField] private float gradientValueOffset = 0.1f;
+        [SerializeField] private float gradientLength = 30;
 
         private PT.MazeGenerator _mazeGenerator;
         private Room[,] _rooms;
@@ -71,13 +79,36 @@ namespace BiaM
             var originConnections = edge.origin.connections;
             var exitConnections = edge.exit.connections;
 
+            Color color;
+            if (useGradient)
+            {
+                var gradient01 = Mathf.Repeat(edge.origin.depth / gradientLength, 1);
+                var gradient010 = Mathf.Abs((gradient01 - 0.5f) * 2);
+                color = GetColor(gradient010);
+            }
+            else
+            {
+                color = GetColor(0.75f);
+            }
+
             var origin = _rooms[originPosition.x, originPosition.y];
             origin.Walls = origin.Walls.RemoveFlag(originConnections);
             origin.Walls = origin.Walls.RemoveFlag(exitConnections.Inverse());
+            origin.Color = color;
 
             var exit = _rooms[exitPosition.x, exitPosition.y];
             exit.Walls = exit.Walls.RemoveFlag(exitConnections);
             exit.Walls = exit.Walls.RemoveFlag(originConnections.Inverse());
+            exit.Color = color;
+        }
+
+        private Color GetColor(float gradientPosition)
+        {
+            var saturation = gradientPosition * gradientSaturation + gradientSaturationOffset;
+            var value = gradientPosition * gradientValue + gradientValueOffset;
+
+            var colorHSV = new ColorHSV(mainColor);
+            return colorHSV.WithSV(saturation, value).ToColor();
         }
     }
 }

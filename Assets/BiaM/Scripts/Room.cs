@@ -17,6 +17,7 @@ namespace BiaM
         [SerializeField, ReadOnly] private int mazeWidth;
         [SerializeField, ReadOnly] private int mazeHeight;
         [SerializeField, ReadOnly] private Vector2Int position;
+        [SerializeField, ReadOnly] private Color color;
         [SerializeField, ReadOnly, EnumFlags] private Directions walls = Directions.All;
 
         public int MazeWidth
@@ -49,6 +50,16 @@ namespace BiaM
             }
         }
 
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+                ResetColor();
+            }
+        }
+
         public Directions Walls
         {
             get => walls;
@@ -62,6 +73,7 @@ namespace BiaM
         private void Awake()
         {
             ResetPosition();
+            ResetColor();
             ResetWalls();
         }
 
@@ -70,6 +82,12 @@ namespace BiaM
             var x = (position.x - (mazeWidth - 1) / 2f) * distanceBetweenRooms;
             var y = (position.y - (mazeHeight - 1) / 2f) * distanceBetweenRooms;
             transform.position = new Vector3(x, y);
+        }
+
+        private void ResetColor()
+        {
+            var material = forwardWall.GetComponent<Renderer>().material;
+            material.color = new Color(color.r, color.g, color.b, material.color.a);
         }
 
         private void ResetWalls()

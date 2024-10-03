@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 705507994}
+  m_Sun: {fileID: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -357,6 +357,13 @@ MonoBehaviour:
     width: 13
     height: 13
     algorithm: 0
+  mainColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  useGradient: 1
+  gradientSaturation: 0.7
+  gradientSaturationOffset: 0.1
+  gradientValue: 0.7
+  gradientValueOffset: 0.1
+  gradientLength: 30
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
