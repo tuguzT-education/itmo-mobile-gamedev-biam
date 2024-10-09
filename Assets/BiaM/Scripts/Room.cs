@@ -20,6 +20,8 @@ namespace BiaM
         [SerializeField, ReadOnly] private Color color;
         [SerializeField, ReadOnly, EnumFlags] private Directions walls = Directions.All;
 
+        private Renderer _forwardWallRenderer;
+
         public int MazeWidth
         {
             get => mazeWidth;
@@ -72,6 +74,8 @@ namespace BiaM
 
         private void Awake()
         {
+            _forwardWallRenderer = forwardWall.GetComponent<Renderer>();
+
             ResetPosition();
             ResetColor();
             ResetWalls();
@@ -86,7 +90,7 @@ namespace BiaM
 
         private void ResetColor()
         {
-            var material = forwardWall.GetComponent<Renderer>().material;
+            var material = _forwardWallRenderer.material;
             material.color = new Color(color.r, color.g, color.b, material.color.a);
         }
 
