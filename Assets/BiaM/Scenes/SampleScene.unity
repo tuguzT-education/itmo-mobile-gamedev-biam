@@ -353,6 +353,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 7846547076489128341, guid: 6634dd904cf4d2748b822023ac330003, type: 3}
+  ballPrefab: {fileID: 4091893567299319943, guid: e89ffcd16228e1847a966fc4125b1472, type: 3}
+  playerRooms:
+  - {x: 0, y: 12}
+  - {x: 12, y: 12}
   config:
     width: 13
     height: 13

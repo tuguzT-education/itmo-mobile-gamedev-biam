@@ -1,4 +1,5 @@
 using System.Collections;
+using NaughtyAttributes;
 using ProceduralToolkit;
 using UnityEngine;
 using PT = ProceduralToolkit.Samples;
@@ -8,6 +9,8 @@ namespace BiaM
     public class Maze : MonoBehaviour
     {
         [SerializeField, Header("General")] private Room roomPrefab;
+        [SerializeField] private Ball ballPrefab;
+        [SerializeField, ReorderableList] private Vector2Int[] playerRooms;
         [SerializeField, Space] private PT.MazeGenerator.Config config = new();
 
         [SerializeField, Header("Color")] private Color mainColor = Color.yellow;
@@ -70,6 +73,12 @@ namespace BiaM
         {
             while (_mazeGenerator.Generate(steps: 200))
                 yield return null;
+
+            foreach (var playerRoom in playerRooms)
+            {
+                var playerPosition = _rooms[playerRoom.x, playerRoom.y].transform.position;
+                Instantiate(ballPrefab, playerPosition, Quaternion.identity);
+            }
         }
 
         private void DrawEdge(PT.Maze.Edge edge)
