@@ -64,6 +64,7 @@ namespace BiaM
                 newRoom.MazeHeight = height;
                 newRoom.Position = new Vector2Int(x, y);
                 newRoom.Walls = Directions.All;
+                newRoom.HasHole = newRoom.Position == config.origin;
 
                 _rooms[x, y] = newRoom;
             }
@@ -88,27 +89,28 @@ namespace BiaM
             var originConnections = edge.origin.connections;
             var exitConnections = edge.exit.connections;
 
-            Color color;
-            if (useGradient)
-            {
-                var gradient01 = Mathf.Repeat(edge.origin.depth / gradientLength, 1);
-                var gradient010 = Mathf.Abs((gradient01 - 0.5f) * 2);
-                color = GetColor(gradient010);
-            }
-            else
-            {
-                color = GetColor(0.75f);
-            }
-
             var origin = _rooms[originPosition.x, originPosition.y];
             origin.Walls = origin.Walls.RemoveFlag(originConnections);
             origin.Walls = origin.Walls.RemoveFlag(exitConnections.Inverse());
-            origin.Color = color;
+            origin.Color = GetColor(edge.origin);
 
             var exit = _rooms[exitPosition.x, exitPosition.y];
             exit.Walls = exit.Walls.RemoveFlag(exitConnections);
             exit.Walls = exit.Walls.RemoveFlag(originConnections.Inverse());
-            exit.Color = color;
+            exit.Color = GetColor(edge.exit);
+        }
+
+        private Color GetColor(PT.Maze.Vertex vertex)
+        {
+            if (!useGradient)
+                return GetColor(0.75f);
+
+            if (vertex.position == config.origin)
+                return GetColor(1f);
+
+            var gradient01 = Mathf.Repeat(vertex.depth / gradientLength, 1);
+            var gradient010 = Mathf.Abs((gradient01 - 0.5f) * 2);
+            return GetColor(gradient010);
         }
 
         private Color GetColor(float gradientPosition)

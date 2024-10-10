@@ -668,7 +668,7 @@ MonoBehaviour:
   ballPrefab: {fileID: 4091893567299319943, guid: e89ffcd16228e1847a966fc4125b1472, type: 3}
   playerRooms:
   - {x: 0, y: 12}
-  - {x: 12, y: 12}
+  - {x: 12, y: 0}
   config:
     width: 13
     height: 13

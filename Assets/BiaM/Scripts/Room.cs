@@ -12,15 +12,18 @@ namespace BiaM
         [SerializeField] private GameObject downWall;
         [SerializeField] private GameObject forwardWall;
         [SerializeField] private GameObject backWall;
+        [SerializeField] private GameObject hole;
 
         [SerializeField, Space, Min(0f)] private float distanceBetweenRooms;
         [SerializeField, ReadOnly] private int mazeWidth;
         [SerializeField, ReadOnly] private int mazeHeight;
         [SerializeField, ReadOnly] private Vector2Int position;
         [SerializeField, ReadOnly] private Color color;
+        [SerializeField, ReadOnly] private bool hasHole;
         [SerializeField, ReadOnly, EnumFlags] private Directions walls = Directions.All;
 
         private Renderer _forwardWallRenderer;
+        private Renderer _holeRenderer;
 
         public int MazeWidth
         {
@@ -62,6 +65,16 @@ namespace BiaM
             }
         }
 
+        public bool HasHole
+        {
+            get => hasHole;
+            set
+            {
+                hasHole = value;
+                ResetWalls();
+            }
+        }
+
         public Directions Walls
         {
             get => walls;
@@ -75,6 +88,7 @@ namespace BiaM
         private void Awake()
         {
             _forwardWallRenderer = forwardWall.GetComponent<Renderer>();
+            _holeRenderer = hole.GetComponentInChildren<Renderer>();
 
             ResetPosition();
             ResetColor();
@@ -90,8 +104,11 @@ namespace BiaM
 
         private void ResetColor()
         {
-            var material = _forwardWallRenderer.material;
-            material.color = new Color(color.r, color.g, color.b, material.color.a);
+            var materials = new[] { _forwardWallRenderer.material, _holeRenderer.material };
+            foreach (var material in materials)
+            {
+                material.color = new Color(color.r, color.g, color.b, material.color.a);
+            }
         }
 
         private void ResetWalls()
@@ -100,8 +117,9 @@ namespace BiaM
             rightWall.SetActive(walls.HasFlag(Directions.Right) || position.x == mazeWidth - 1);
             upWall.SetActive(walls.HasFlag(Directions.Up) || position.y == mazeHeight - 1);
             downWall.SetActive(walls.HasFlag(Directions.Down) || position.y == 0);
-            forwardWall.SetActive(walls.HasFlag(Directions.Forward));
+            forwardWall.SetActive(walls.HasFlag(Directions.Forward) && !hasHole);
             backWall.SetActive(walls.HasFlag(Directions.Back));
+            hole.SetActive(hasHole);
         }
     }
 }
