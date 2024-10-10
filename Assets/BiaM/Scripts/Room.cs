@@ -104,8 +104,11 @@ namespace BiaM
 
         private void ResetColor()
         {
-            var materials = new[] { _forwardWallRenderer.material, _holeRenderer.material };
-            foreach (var material in materials)
+            SetMaterialColor(_forwardWallRenderer.material);
+            SetMaterialColor(_holeRenderer.material);
+            return;
+
+            void SetMaterialColor(Material material)
             {
                 material.color = new Color(color.r, color.g, color.b, material.color.a);
             }
