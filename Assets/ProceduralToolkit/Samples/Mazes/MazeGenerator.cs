@@ -22,6 +22,8 @@ namespace ProceduralToolkit.Samples
         {
             public int width = 100;
             public int height = 100;
+            public bool randomOrigin = true;
+            public Vector2Int origin;
             public Algorithm algorithm = Algorithm.RandomTraversal;
             public Action<Maze.Edge> drawEdge;
         }
@@ -34,11 +36,18 @@ namespace ProceduralToolkit.Samples
         {
             Assert.IsTrue(config.width > 0);
             Assert.IsTrue(config.height > 0);
+            if (!config.randomOrigin)
+            {
+                Assert.IsTrue(0 <= config.origin.x && config.origin.x < config.width);
+                Assert.IsTrue(0 <= config.origin.y && config.origin.y < config.height);
+            }
 
             this.config = config;
             maze = new Maze(config.width, config.height);
 
-            var originPosition = new Vector2Int(Random.Range(0, config.width), Random.Range(0, config.height));
+            var originPosition = config.randomOrigin
+                ? new Vector2Int(Random.Range(0, config.width), Random.Range(0, config.height))
+                : config.origin;
             edges = maze.GetPossibleConnections(new Maze.Vertex(originPosition, Directions.None, 0));
         }
 
@@ -59,8 +68,10 @@ namespace ProceduralToolkit.Samples
                         RandomTraversal();
                         break;
                 }
+
                 changed = true;
             }
+
             return changed;
         }
 
@@ -101,30 +112,30 @@ namespace ProceduralToolkit.Samples
 
         public static int GetMapWidth(int mazeWidth, int wallSize, int roomSize)
         {
-            return wallSize + mazeWidth*(roomSize + wallSize);
+            return wallSize + mazeWidth * (roomSize + wallSize);
         }
 
         public static int GetMapHeight(int mazeHeight, int wallSize, int roomSize)
         {
-            return wallSize + mazeHeight*(roomSize + wallSize);
+            return wallSize + mazeHeight * (roomSize + wallSize);
         }
 
         public static void EdgeToRect(Maze.Edge edge, int wallSize, int roomSize,
             out Vector2Int position, out int width, out int height)
         {
             position = new Vector2Int(
-                x: wallSize + Mathf.Min(edge.origin.position.x, edge.exit.position.x)*(roomSize + wallSize),
-                y: wallSize + Mathf.Min(edge.origin.position.y, edge.exit.position.y)*(roomSize + wallSize));
+                x: wallSize + Mathf.Min(edge.origin.position.x, edge.exit.position.x) * (roomSize + wallSize),
+                y: wallSize + Mathf.Min(edge.origin.position.y, edge.exit.position.y) * (roomSize + wallSize));
 
             if ((edge.exit.position - edge.origin.position).y == 0)
             {
-                width = roomSize*2 + wallSize;
+                width = roomSize * 2 + wallSize;
                 height = roomSize;
             }
             else
             {
                 width = roomSize;
-                height = roomSize*2 + wallSize;
+                height = roomSize * 2 + wallSize;
             }
         }
     }
