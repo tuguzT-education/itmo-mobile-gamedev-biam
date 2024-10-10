@@ -19,5 +19,10 @@ namespace BiaM
         {
             _constantForce.force = VirtualJoystick.GetAxis() * forceMultiplier;
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log(other.gameObject.tag);
+        }
     }
 }
