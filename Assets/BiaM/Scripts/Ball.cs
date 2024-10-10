@@ -6,6 +6,8 @@ namespace BiaM
     [RequireComponent(typeof(Rigidbody), typeof(ConstantForce))]
     public class Ball : MonoBehaviour
     {
+        [SerializeField, Min(0f)] private float forceMultiplier = 1f;
+
         private ConstantForce _constantForce;
 
         private void Awake()
@@ -15,7 +17,7 @@ namespace BiaM
 
         private void Update()
         {
-            _constantForce.force = VirtualJoystick.GetAxis();
+            _constantForce.force = VirtualJoystick.GetAxis() * forceMultiplier;
         }
     }
 }
