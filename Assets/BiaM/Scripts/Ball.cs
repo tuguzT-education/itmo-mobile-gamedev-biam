@@ -17,7 +17,8 @@ namespace BiaM
 
         private void Update()
         {
-            _constantForce.force = VirtualJoystick.GetAxis() * forceMultiplier;
+            var input = VirtualJoystick.GetAxis();
+            _constantForce.force = new Vector3(input.x, input.y, 1f) * forceMultiplier;
         }
 
         private void OnTriggerEnter(Collider other)
