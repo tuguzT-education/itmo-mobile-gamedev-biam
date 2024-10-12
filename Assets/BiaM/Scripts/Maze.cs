@@ -99,18 +99,18 @@ namespace BiaM
 
                 _rooms[x, y] = newRoom;
             }
+
+            foreach (var playerRoom in playerRooms)
+            {
+                var room = _rooms[playerRoom.x, playerRoom.y];
+                room.gameObject.AddComponent<Mirror.NetworkStartPosition>();
+            }
         }
 
         private IEnumerator GenerateCoroutine()
         {
             while (_mazeGenerator.Generate(steps: 200))
                 yield return null;
-
-            // foreach (var playerRoom in playerRooms)
-            // {
-            //     var playerPosition = _rooms[playerRoom.x, playerRoom.y].transform.position;
-            //     Instantiate(ballPrefab, playerPosition, Quaternion.identity);
-            // }
         }
 
         private void DrawEdge(PT.Maze.Edge edge)
