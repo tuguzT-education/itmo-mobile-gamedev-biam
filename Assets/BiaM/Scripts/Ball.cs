@@ -1,29 +1,31 @@
+using Mirror;
 using Terresquall;
 using UnityEngine;
 
 namespace BiaM
 {
-    [RequireComponent(typeof(Rigidbody), typeof(ConstantForce))]
-    public class Ball : MonoBehaviour
+    [RequireComponent(typeof(PredictedRigidbody))]
+    public class Ball : NetworkBehaviour
     {
         [SerializeField, Min(0f)] private float forceMultiplier = 1f;
 
-        private ConstantForce _constantForce;
+        private PredictedRigidbody _predictedRigidbody;
 
         private void Awake()
         {
-            _constantForce = GetComponent<ConstantForce>();
+            _predictedRigidbody = GetComponent<PredictedRigidbody>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             var input = VirtualJoystick.GetAxis();
-            _constantForce.force = new Vector3(input.x, input.y, 1f) * forceMultiplier;
+            var force = new Vector3(input.x, input.y, 1f) * forceMultiplier;
+            _predictedRigidbody.predictedRigidbody.AddForce(force);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log(other.gameObject.tag);
+            Debug.Log($"{gameObject.tag} entered trigger {other.gameObject.tag}");
         }
     }
 }
