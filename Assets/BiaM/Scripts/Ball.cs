@@ -15,7 +15,7 @@ namespace BiaM
         [SerializeField, Header("Network"), ReadOnly, SyncVar]
         private Vector2 combinedNetworkInputs;
 
-        private readonly SyncDictionary<int, Vector2> _networkInputs = new();
+        private readonly SyncDictionary<uint, Vector2> _networkInputs = new();
 
         private PredictedRigidbody _predictedRigidbody;
 
@@ -28,7 +28,8 @@ namespace BiaM
         {
             if (isClient && VirtualJoystick.GetAxisDelta() != Vector2.zero)
             {
-                CmdUpdateInput(VirtualJoystick.GetAxis());
+                var playerId = netIdentity.netId;
+                CmdUpdateInput(playerId, VirtualJoystick.GetAxis());
             }
 
             if (!isServer) return;
@@ -40,10 +41,9 @@ namespace BiaM
         }
 
         [Command(requiresAuthority = false)]
-        private void CmdUpdateInput(Vector2 input)
+        private void CmdUpdateInput(uint playerId, Vector2 input)
         {
-            var key = NetworkClient.connection.connectionId;
-            _networkInputs[key] = input;
+            _networkInputs[playerId] = input;
         }
 
         private void FixedUpdate()
