@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using NaughtyAttributes;
 using ProceduralToolkit;
 using UnityEngine;
@@ -6,10 +7,9 @@ using PT = ProceduralToolkit.Samples;
 
 namespace BiaM
 {
-    public class Maze : MonoBehaviour
+    public class Maze : Mirror.NetworkBehaviour
     {
         [SerializeField, Header("General")] private Room roomPrefab;
-        [SerializeField] private Ball ballPrefab;
         [SerializeField, ReorderableList] private Vector2Int[] playerRooms;
         [SerializeField, Space] private PT.MazeGenerator.Config config = new();
 
@@ -21,14 +21,45 @@ namespace BiaM
         [SerializeField] private float gradientValueOffset = 0.1f;
         [SerializeField] private float gradientLength = 30;
 
+        [SerializeField, Header("Network"), Mirror.ReadOnly, Mirror.SyncVar(hook = nameof(OnStateChanged))]
+        private int seed;
+
         private PT.MazeGenerator _mazeGenerator;
         private Room[,] _rooms;
 
         private void Awake()
         {
             config.drawEdge = DrawEdge;
+        }
 
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+
+            seed = Random.Range(int.MinValue, int.MaxValue);
+            Random.InitState(seed);
             Generate();
+
+            Debug.Log($"Server started: {seed}");
+        }
+
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+
+            Random.InitState(seed);
+            Generate();
+
+            Debug.Log($"Client started: {seed}");
+        }
+
+        [SuppressMessage("ReSharper", "UnusedParameter.Local")]
+        private void OnStateChanged(int oldSeed, int newSeed)
+        {
+            Random.InitState(seed);
+            Generate();
+
+            Debug.Log($"On state changed: {seed}");
         }
 
         private void Generate()
@@ -75,11 +106,11 @@ namespace BiaM
             while (_mazeGenerator.Generate(steps: 200))
                 yield return null;
 
-            foreach (var playerRoom in playerRooms)
-            {
-                var playerPosition = _rooms[playerRoom.x, playerRoom.y].transform.position;
-                Instantiate(ballPrefab, playerPosition, Quaternion.identity);
-            }
+            // foreach (var playerRoom in playerRooms)
+            // {
+            //     var playerPosition = _rooms[playerRoom.x, playerRoom.y].transform.position;
+            //     Instantiate(ballPrefab, playerPosition, Quaternion.identity);
+            // }
         }
 
         private void DrawEdge(PT.Maze.Edge edge)
