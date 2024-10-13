@@ -34,7 +34,7 @@ namespace BiaM
         {
             _material.color = Color.red;
 
-            _text.text = gameObject.name;
+            _text.text = $"Player {netId}";
             _text.color = Color.red;
         }
 
