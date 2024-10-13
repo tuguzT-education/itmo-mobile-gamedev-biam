@@ -18,7 +18,7 @@ namespace BiaM
         {
             if (!isClient || VirtualJoystick.GetAxisDelta() == Vector2.zero) return;
 
-            var playerId = netIdentity.netId;
+            var playerId = NetworkClient.connection.identity.netId;
             localInputs = VirtualJoystick.GetAxis();
             CmdUpdateInput(playerId, localInputs);
         }
