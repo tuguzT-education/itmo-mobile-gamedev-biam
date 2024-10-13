@@ -53,6 +53,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   forceMultiplier: 15
+  textPrefab: {fileID: 1118225012739353077, guid: 86b8113f93eda7442830afe19a13b15a, type: 3}
 --- !u!135 &992928048594476355
 SphereCollider:
   m_ObjectHideFlags: 0
