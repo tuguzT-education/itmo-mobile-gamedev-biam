@@ -1,7 +1,5 @@
-using System.Linq;
 using Mirror;
 using ProceduralToolkit;
-using Terresquall;
 using UnityEngine;
 
 namespace BiaM
@@ -12,43 +10,19 @@ namespace BiaM
         [SerializeField, Header("General"), Min(0f)]
         private float forceMultiplier = 1f;
 
-        [SerializeField, Header("Network"), ReadOnly, SyncVar]
-        private Vector2 combinedNetworkInputs;
-
-        private readonly SyncDictionary<uint, Vector2> _networkInputs = new();
-
         private PredictedRigidbody _predictedRigidbody;
+        private InputManager _inputManager;
 
         private void Awake()
         {
             _predictedRigidbody = GetComponent<PredictedRigidbody>();
-        }
-
-        private void Update()
-        {
-            if (isClient && VirtualJoystick.GetAxisDelta() != Vector2.zero)
-            {
-                var playerId = netIdentity.netId;
-                CmdUpdateInput(playerId, VirtualJoystick.GetAxis());
-            }
-
-            if (!isServer) return;
-
-            var result = _networkInputs.Values.Aggregate(Vector2.zero, (curr, item) => curr + item);
-            result.x = Mathf.Clamp(result.x, -1f, 1f);
-            result.y = Mathf.Clamp(result.y, -1f, 1f);
-            combinedNetworkInputs = result;
-        }
-
-        [Command(requiresAuthority = false)]
-        private void CmdUpdateInput(uint playerId, Vector2 input)
-        {
-            _networkInputs[playerId] = input;
+            _inputManager = FindObjectOfType<InputManager>();
         }
 
         private void FixedUpdate()
         {
-            var force = (combinedNetworkInputs.ToVector3XY() + Vector3.forward) * forceMultiplier;
+            var inputs = _inputManager.CombinedInputs;
+            var force = (inputs.ToVector3XY() + Vector3.forward) * forceMultiplier;
             _predictedRigidbody.predictedRigidbody.AddForce(force);
         }
 
