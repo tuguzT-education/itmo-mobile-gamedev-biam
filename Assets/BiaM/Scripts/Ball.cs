@@ -53,9 +53,16 @@ namespace BiaM
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!isServer) return;
+            if (!isServer || !other.CompareTag("Finish")) return;
 
-            Debug.Log($"{gameObject.tag} entered trigger {other.gameObject.tag}");
+            RpcWinner(netId);
+        }
+
+        [ClientRpc]
+        private void RpcWinner(uint playerId)
+        {
+            Debug.Log($"Player {playerId} wins!");
+            _inputManager.gameObject.SetActive(false);
         }
 
         private void OnDestroy()

@@ -12,7 +12,7 @@ namespace BiaM
 
         private readonly SyncDictionary<uint, Vector2> _networkInputs = new();
 
-        public Vector2 CombinedInputs => combinedInputs;
+        public Vector2 CombinedInputs => gameObject.activeSelf ? combinedInputs : Vector2.zero;
 
         private void Update()
         {
