@@ -12,11 +12,18 @@ namespace BiaM
 
         private PredictedRigidbody _predictedRigidbody;
         private InputManager _inputManager;
+        private Material _material;
 
         private void Awake()
         {
             _predictedRigidbody = GetComponent<PredictedRigidbody>();
             _inputManager = FindObjectOfType<InputManager>();
+            _material = GetComponentInChildren<Renderer>().material;
+        }
+
+        private void Start()
+        {
+            _material.color = Color.red;
         }
 
         private void FixedUpdate()
