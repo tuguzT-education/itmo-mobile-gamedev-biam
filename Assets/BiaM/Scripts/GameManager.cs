@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Mirror;
 using Terresquall;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,6 +19,7 @@ namespace BiaM
         private bool gameFinished;
 
         [SerializeField] private FinishGameEvent finishGameEvent;
+        [SerializeField] private string finishGameEventName = "FinishGame";
 
         [SerializeField, Header("Inputs"), ReadOnly]
         private Vector2 localInputs;
@@ -47,8 +49,17 @@ namespace BiaM
         private void RpcFinishGame(uint winnerId)
         {
             var winnerName = $"Player {winnerId}";
+            var winnerIsSelf = winnerId == NetworkClient.connection.identity.netId;
             Debug.Log($"{winnerName} wins!");
-            finishGameEvent.Invoke(winnerName, winnerId == NetworkClient.connection.identity.netId);
+
+            if (finishGameEvent.GetPersistentEventCount() > 0)
+            {
+                finishGameEvent.Invoke(winnerName, winnerIsSelf);
+            }
+            else
+            {
+                CustomEvent.Trigger(gameObject, finishGameEventName, winnerName, winnerIsSelf);
+            }
         }
 
         private void Update()
