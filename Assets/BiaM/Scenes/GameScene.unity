@@ -640,7 +640,7 @@ GameObject:
   - component: {fileID: 1608238666}
   - component: {fileID: 1608238665}
   m_Layer: 0
-  m_Name: InputManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -678,6 +678,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  gameFinished: 0
+  finishGameEvent:
+    m_PersistentCalls:
+      m_Calls: []
   localInputs: {x: 0, y: 0}
   combinedInputs: {x: 0, y: 0}
 --- !u!4 &1608238667
@@ -941,6 +945,6 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 295951013}
   - {fileID: 1503224981}
-  - {fileID: 2092424330}
   - {fileID: 1608238667}
+  - {fileID: 2092424330}
   - {fileID: 2604329221124007452}

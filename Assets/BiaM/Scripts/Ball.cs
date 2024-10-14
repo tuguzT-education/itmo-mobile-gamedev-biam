@@ -14,7 +14,7 @@ namespace BiaM
         [SerializeField] private TMP_Text textPrefab;
 
         private PredictedRigidbody _predictedRigidbody;
-        private InputManager _inputManager;
+        private GameManager _gameManager;
         private Material _material;
         private TMP_Text _text;
         private RectTransform _textRectTransform;
@@ -22,7 +22,7 @@ namespace BiaM
         private void Awake()
         {
             _predictedRigidbody = GetComponent<PredictedRigidbody>();
-            _inputManager = FindObjectOfType<InputManager>();
+            _gameManager = FindObjectOfType<GameManager>();
             _material = GetComponentInChildren<Renderer>().material;
 
             var mainCanvas = GameObject.FindWithTag("MainCanvas").GetComponent<Canvas>();
@@ -46,7 +46,7 @@ namespace BiaM
 
         private void FixedUpdate()
         {
-            var inputs = _inputManager.CombinedInputs;
+            var inputs = _gameManager.CombinedInputs;
             var force = (inputs.ToVector3XY() + Vector3.forward) * forceMultiplier;
             _predictedRigidbody.predictedRigidbody.AddForce(force);
         }
@@ -55,14 +55,7 @@ namespace BiaM
         {
             if (!isServer || !other.CompareTag("Finish")) return;
 
-            RpcWinner(netId);
-        }
-
-        [ClientRpc]
-        private void RpcWinner(uint playerId)
-        {
-            Debug.Log($"Player {playerId} wins!");
-            _inputManager.gameObject.SetActive(false);
+            _gameManager.FinishGame(netId);
         }
 
         private void OnDestroy()
