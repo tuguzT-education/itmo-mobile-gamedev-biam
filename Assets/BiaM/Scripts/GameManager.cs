@@ -64,7 +64,7 @@ namespace BiaM
 
         private void Update()
         {
-            if (!isClient || VirtualJoystick.GetAxisDelta() == Vector2.zero) return;
+            if (!isClient || !NetworkClient.isConnected || VirtualJoystick.GetAxisDelta() == Vector2.zero) return;
 
             var playerId = NetworkClient.connection.identity.netId;
             localInputs = VirtualJoystick.GetAxis();

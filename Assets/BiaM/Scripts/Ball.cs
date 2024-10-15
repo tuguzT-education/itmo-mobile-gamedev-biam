@@ -35,20 +35,14 @@ namespace BiaM
             _textRectTransform = _text.GetComponent<RectTransform>();
         }
 
-        public override void OnStartClient()
-        {
-            base.OnStartClient();
-
-            playerName = $"Player {netId}";
-            playerColor = Color.red;
-        }
-
         private void Start()
         {
-            _material.color = playerColor;
+            playerName = $"Player {netId}";
+            playerColor = Color.red;
 
             _text.text = playerName;
             _text.color = playerColor;
+            _material.color = playerColor;
         }
 
         private void Update()
