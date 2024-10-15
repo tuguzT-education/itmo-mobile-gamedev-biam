@@ -33,6 +33,7 @@ namespace BiaM
             var mainCanvas = GameObject.FindWithTag("MainCanvas").GetComponent<Canvas>();
             _text = Instantiate(textPrefab, mainCanvas.transform);
             _textRectTransform = _text.GetComponent<RectTransform>();
+            _textRectTransform.SetAsFirstSibling();
         }
 
         private void Start()

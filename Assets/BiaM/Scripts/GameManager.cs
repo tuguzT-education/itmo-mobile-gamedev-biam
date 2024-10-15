@@ -42,7 +42,14 @@ namespace BiaM
             if (gameFinished) return;
 
             gameFinished = true;
+            _networkInputs.Clear();
+            combinedInputs = Vector2.zero;
             RpcFinishGame(winnerId);
+        }
+
+        public void ExitGame()
+        {
+            NetworkManager.singleton.StopHost();
         }
 
         [ClientRpc]
