@@ -13,6 +13,11 @@ namespace BiaM
 
         [SerializeField] private TMP_Text textPrefab;
 
+        [SerializeField, ReadOnly, Header("Network")]
+        private string playerName;
+
+        [SerializeField, ReadOnly] private Color playerColor;
+
         private PredictedRigidbody _predictedRigidbody;
         private GameManager _gameManager;
         private Material _material;
@@ -30,12 +35,20 @@ namespace BiaM
             _textRectTransform = _text.GetComponent<RectTransform>();
         }
 
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+
+            playerName = $"Player {netId}";
+            playerColor = Color.red;
+        }
+
         private void Start()
         {
-            _material.color = Color.red;
+            _material.color = playerColor;
 
-            _text.text = $"Player {netId}";
-            _text.color = Color.red;
+            _text.text = playerName;
+            _text.color = playerColor;
         }
 
         private void Update()
