@@ -17,13 +17,15 @@ namespace BiaM
         public void Play()
         {
             infoText.text = "Starting game...";
+
             StartCoroutine(Waiter());
         }
 
         public void OnDiscoveredServer(ServerResponse info)
         {
             _discoveredServers[info.serverId] = info;
-            Connect(info);
+
+            StartCoroutine(Connect(info));
         }
 
         public void Quit()
@@ -32,10 +34,12 @@ namespace BiaM
             Application.Quit();
         }
 
-        private void Connect(ServerResponse info)
+        private IEnumerator Connect(ServerResponse info)
         {
-            infoText.text = $"Connecting to {info.serverId}...";
+            infoText.text = "Connecting to existing server...";
             networkDiscovery.StopDiscovery();
+
+            yield return new WaitForSeconds(1.0f);
             NetworkManager.singleton.StartClient(info.uri);
         }
 
@@ -48,7 +52,7 @@ namespace BiaM
             yield return new WaitForSeconds(3.5f);
 
             if (_discoveredServers is { Count: > 0 }) yield break;
-            infoText.text = "No server found, starting a new game...";
+            infoText.text = "No server found, starting a new one...";
             yield return new WaitForSeconds(1.0f);
 
             _discoveredServers.Clear();
