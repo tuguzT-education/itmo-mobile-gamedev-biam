@@ -38,8 +38,9 @@ namespace BiaM
 
         private void Start()
         {
-            playerName = $"Player {netId}";
-            playerColor = Color.red;
+            var isSelf = netId == NetworkClient.connection.identity.netId;
+            playerName = isSelf ? "Me" : $"Player {netId}";
+            playerColor = isSelf ? Color.green : Color.red;
 
             _text.text = playerName;
             _text.color = playerColor;
