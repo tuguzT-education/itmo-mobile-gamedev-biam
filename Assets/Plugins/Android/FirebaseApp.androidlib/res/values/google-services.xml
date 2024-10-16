@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id">
+  <string name="gcm_defaultSenderId" translatable="false">741737009610</string>
+  <string name="google_storage_bucket" translatable="false">ball-in-a-maze.appspot.com</string>
+  <string name="project_id" translatable="false">ball-in-a-maze</string>
+  <string name="google_api_key" translatable="false">AIzaSyC88UjzTuPa0eGCUVh5CGvDOfp_9l-adqY</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyC88UjzTuPa0eGCUVh5CGvDOfp_9l-adqY</string>
+  <string name="google_app_id" translatable="false">1:741737009610:android:3b534673d86adf5e0d7f33</string>
+</resources>

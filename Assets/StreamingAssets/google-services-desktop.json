@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "741737009610",
+    "project_id": "ball-in-a-maze",
+    "storage_bucket": "ball-in-a-maze.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741737009610:android:3b534673d86adf5e0d7f33",
+        "android_client_info": {
+          "package_name": "com.tuguzt.games.biam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC88UjzTuPa0eGCUVh5CGvDOfp_9l-adqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
