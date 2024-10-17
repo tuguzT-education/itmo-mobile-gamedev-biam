@@ -22,6 +22,14 @@
         "com.google.external-dependency-manager": "1.2.183"
       }
     },
+    "com.google.firebase.crashlytics": {
+      "version": "file:../ThirdParty/Firebase/com.google.firebase.crashlytics-12.3.0.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {
+        "com.google.firebase.app": "12.3.0"
+      }
+    },
     "com.unity.collab-proxy": {
       "version": "2.5.2",
       "depth": 0,

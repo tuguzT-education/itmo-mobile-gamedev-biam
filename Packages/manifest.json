@@ -42,6 +42,7 @@
     "com.unity.modules.xr": "1.0.0",
     "com.google.external-dependency-manager": "file:../ThirdParty/Firebase/com.google.external-dependency-manager-1.2.183.tgz",
     "com.google.firebase.app": "file:../ThirdParty/Firebase/com.google.firebase.app-12.3.0.tgz",
-    "com.google.firebase.analytics": "file:../ThirdParty/Firebase/com.google.firebase.analytics-12.3.0.tgz"
+    "com.google.firebase.analytics": "file:../ThirdParty/Firebase/com.google.firebase.analytics-12.3.0.tgz",
+    "com.google.firebase.crashlytics": "file:../ThirdParty/Firebase/com.google.firebase.crashlytics-12.3.0.tgz"
   }
 }

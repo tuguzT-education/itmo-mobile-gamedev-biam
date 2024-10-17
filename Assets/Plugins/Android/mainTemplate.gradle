@@ -9,6 +9,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-unity:12.3.0' // Packages/com.google.firebase.analytics/Firebase/Editor/AnalyticsDependencies.xml:18
     implementation 'com.google.firebase:firebase-app-unity:12.3.0' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:22
     implementation 'com.google.firebase:firebase-common:21.0.0' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:13
+    implementation 'com.google.firebase:firebase-crashlytics-ndk:19.1.0' // Packages/com.google.firebase.crashlytics/Firebase/Editor/CrashlyticsDependencies.xml:13
+    implementation 'com.google.firebase:firebase-crashlytics-unity:12.3.0' // Packages/com.google.firebase.crashlytics/Firebase/Editor/CrashlyticsDependencies.xml:20
 // Android Resolver Dependencies End
 **DEPS**}
 
